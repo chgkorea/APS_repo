@@ -1,6 +1,6 @@
 def solve():
-    visited = [-1] * n  # 각 행별로 어떤 열의 데이터를 방문했는지 기록
-    max_prob = - 0.01
+    visited = [False] * n  # 각 열의 방문 여부
+    max_prob = 0
 
     def dfs(row, current_prob):
         nonlocal max_prob
@@ -15,16 +15,16 @@ def solve():
 
         # 2. 행 안에서 열별로 순회
         for col in range(n):
-            if col not in visited:
+            if not visited[col]:
                 next_prob = current_prob * my_data[row][col]
                 if next_prob <= max_prob:
                     continue  # 가지치기: 곱했는데 현재 최대보다 더 작거나 같다면 pass
                 else:
-                    visited[row] = col  # visit 처리 및 몇번 열을 썼는지 기록
+                    visited[col] = True  # visit 처리 및 몇번 열을 썼는지 기록
                     dfs(row+1, next_prob)
 
                     # unvisit 처리
-                    visited[row] = -1
+                    visited[col] = False
 
     dfs(0, 1)
     return max_prob
